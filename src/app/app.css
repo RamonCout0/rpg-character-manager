@@ -1,0 +1,40 @@
+:host ::ng-deep .p-dialog {
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+:host ::ng-deep .p-datatable {
+  background: transparent;
+}
+
+:host ::ng-deep .p-datatable-table {
+  background: transparent;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  background: #0f172a;
+  color: white;
+  border-color: #334155;
+  padding: 1rem;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  background: #111827;
+  color: white;
+  border-color: #334155;
+  padding: 1rem;
+}
+
+:host ::ng-deep .p-dialog-content {
+  background: #111827;
+  color: white;
+}
+
+:host ::ng-deep .p-dialog-header {
+  background: #0f172a;
+  color: white;
+}
+
+:host ::ng-deep .p-dialog-footer {
+  background: #111827;
+}
