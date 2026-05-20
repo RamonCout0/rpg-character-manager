@@ -1,4 +1,4 @@
-<div class="min-h-screen p-8 text-white">
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-white">
 
   <!-- HEADER -->
 
@@ -7,8 +7,11 @@
 
     <div>
 
-      <h1 class="text-5xl font-bold tracking-tight">
+      <h1
+        class="text-5xl font-black tracking-tight bg-gradient-to-r from-violet-400 via-cyan-400 to-fuchsia-500 bg-clip-text text-transparent drop-shadow-lg">
+
         🎲 RPG Character Manager
+
       </h1>
 
       <p class="text-slate-400 mt-2 text-lg">
@@ -21,7 +24,7 @@
       label="Novo Personagem"
       icon="pi pi-plus"
       severity="contrast"
-      styleClass="!px-6 !py-3"
+      styleClass="!px-6 !py-3 !rounded-2xl !font-bold shadow-xl hover:scale-105 transition-all"
       (onClick)="openNew()">
     </p-button>
 
@@ -30,33 +33,43 @@
   <!-- TABLE -->
 
   <div
-    class="bg-slate-900/70 backdrop-blur-md border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">
+    class="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">
 
     <p-table
       [value]="characters"
-      styleClass="p-datatable-striped">
-
-      <!-- HEADER -->
+      styleClass="p-datatable-striped p-datatable-sm">
 
       <ng-template pTemplate="header">
 
         <tr>
 
-          <th>Personagem</th>
-          <th>Classe</th>
-          <th>Nível</th>
-          <th>Status</th>
-          <th>Ações</th>
+          <th class="!bg-slate-900 !text-slate-200">
+            Personagem
+          </th>
+
+          <th class="!bg-slate-900 !text-slate-200">
+            Classe
+          </th>
+
+          <th class="!bg-slate-900 !text-slate-200">
+            Nível
+          </th>
+
+          <th class="!bg-slate-900 !text-slate-200">
+            Status
+          </th>
+
+          <th class="!bg-slate-900 !text-slate-200">
+            Ações
+          </th>
 
         </tr>
 
       </ng-template>
 
-      <!-- BODY -->
-
       <ng-template pTemplate="body" let-character>
 
-        <tr class="hover:bg-slate-800/50 transition-all duration-200">
+        <tr class="hover:!bg-slate-800/50 transition-all duration-200">
 
           <!-- PERSONAGEM -->
 
@@ -66,7 +79,7 @@
 
               <img
                 [src]="character.image"
-                class="w-20 h-20 rounded-2xl object-cover border border-slate-700 shadow-lg">
+                class="w-20 h-20 rounded-2xl object-cover border border-slate-700 shadow-xl">
 
               <div class="max-w-[350px]">
 
@@ -91,7 +104,7 @@
             <span
               [class]="
                 getClassColor(character.classType) +
-                ' px-4 py-2 rounded-full text-sm font-medium'
+                ' px-4 py-2 rounded-full text-sm font-bold shadow-lg'
               ">
 
               {{ character.classType }}
@@ -105,7 +118,7 @@
           <td>
 
             <div
-              class="bg-slate-800 px-4 py-2 rounded-xl inline-block font-semibold">
+              class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl inline-block font-bold shadow-md">
 
               Level {{ character.level }}
 
@@ -120,7 +133,7 @@
             @if (character.alive) {
 
               <span
-                class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full text-sm font-medium">
+                class="bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-bold">
 
                 Vivo
 
@@ -129,7 +142,7 @@
             } @else {
 
               <span
-                class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-medium">
+                class="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-2 rounded-full text-sm font-bold">
 
                 Morto
 
@@ -148,7 +161,7 @@
               <!-- VISUALIZAR -->
 
               <button
-                class="w-11 h-11 rounded-xl bg-violet-500 hover:bg-violet-400 transition-all duration-200 flex items-center justify-center shadow-lg"
+                class="w-11 h-11 rounded-xl bg-violet-500 hover:bg-violet-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
                 (click)="viewCharacter(character)">
 
                 <i class="pi pi-eye text-black"></i>
@@ -158,7 +171,7 @@
               <!-- EDITAR -->
 
               <button
-                class="w-11 h-11 rounded-xl bg-cyan-500 hover:bg-cyan-400 transition-all duration-200 flex items-center justify-center shadow-lg"
+                class="w-11 h-11 rounded-xl bg-cyan-500 hover:bg-cyan-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
                 (click)="editCharacter(character)">
 
                 <i class="pi pi-pencil text-black"></i>
@@ -168,7 +181,7 @@
               <!-- DELETAR -->
 
               <button
-                class="w-11 h-11 rounded-xl bg-red-500 hover:bg-red-400 transition-all duration-200 flex items-center justify-center shadow-lg"
+                class="w-11 h-11 rounded-xl bg-red-500 hover:bg-red-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
                 (click)="deleteCharacter(character.id)">
 
                 <i class="pi pi-trash text-black"></i>
@@ -197,7 +210,8 @@
   [style]="{ width: '700px' }"
   [draggable]="false"
   [resizable]="false"
-  header="Personagem">
+  header="Personagem"
+  styleClass="rounded-3xl overflow-hidden border border-slate-700">
 
   <div class="flex flex-col gap-5 mt-3">
 
@@ -211,14 +225,14 @@
 
       <input
         pInputText
-        [ngModel]="characterForm().name"
-        (ngModelChange)="characterForm.update(v => ({ ...v, name: $event }))"
+        [ngModel]="characterModel().name"
+        (ngModelChange)="characterModel.update(v => ({ ...v, name: $event }))"
         placeholder="Nome do personagem"
         class="w-full">
 
       @if (
-        characterForm().name.length > 0 &&
-        characterForm().name.length < 3
+        characterModel().name.length > 0 &&
+        characterModel().name.length < 3
       ) {
 
         <small class="text-red-400">
@@ -239,10 +253,10 @@
 
       <p-select
         [options]="classes"
-        [ngModel]="characterForm().classType"
-        (ngModelChange)="characterForm.update(v => ({ ...v, classType: $event }))"
+        [ngModel]="characterModel().classType"
+        (ngModelChange)="characterModel.update(v => ({ ...v, classType: $event }))"
         placeholder="Selecione uma classe"
-        class="w-full">
+        styleClass="w-full">
       </p-select>
 
     </div>
@@ -256,10 +270,11 @@
       </label>
 
       <p-inputnumber
-        [ngModel]="characterForm().level"
-        (ngModelChange)="characterForm.update(v => ({ ...v, level: $event }))"
+        [ngModel]="characterModel().level"
+        (ngModelChange)="characterModel.update(v => ({ ...v, level: $event }))"
         [min]="1"
-        class="w-full">
+        styleClass="w-full"
+        inputStyleClass="w-full">
       </p-inputnumber>
 
     </div>
@@ -274,8 +289,8 @@
 
       <textarea
         rows="3"
-        [ngModel]="characterForm().appearance"
-        (ngModelChange)="characterForm.update(v => ({ ...v, appearance: $event }))"
+        [ngModel]="characterModel().appearance"
+        (ngModelChange)="characterModel.update(v => ({ ...v, appearance: $event }))"
         class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
       </textarea>
 
@@ -291,8 +306,8 @@
 
       <textarea
         rows="4"
-        [ngModel]="characterForm().story"
-        (ngModelChange)="characterForm.update(v => ({ ...v, story: $event }))"
+        [ngModel]="characterModel().story"
+        (ngModelChange)="characterModel.update(v => ({ ...v, story: $event }))"
         class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white">
       </textarea>
 
@@ -308,8 +323,8 @@
 
       <input
         pInputText
-        [ngModel]="characterForm().image"
-        (ngModelChange)="characterForm.update(v => ({ ...v, image: $event }))"
+        [ngModel]="characterModel().image"
+        (ngModelChange)="characterModel.update(v => ({ ...v, image: $event }))"
         placeholder="https://imagem.com/personagem.jpg"
         class="w-full">
 
@@ -320,9 +335,10 @@
     <div class="flex items-center gap-3">
 
       <p-checkbox
-        [ngModel]="characterForm().alive"
-        (ngModelChange)="characterForm.update(v => ({ ...v, alive: $event }))"
-        [binary]="true">
+        [ngModel]="characterModel().alive"
+        (ngModelChange)="characterModel.update(v => ({ ...v, alive: $event }))"
+        [binary]="true"
+        styleClass="scale-125">
       </p-checkbox>
 
       <label>
@@ -333,11 +349,11 @@
 
     <!-- PREVIEW -->
 
-    @if (characterForm().image) {
+    @if (characterModel().image) {
 
       <img
-        [src]="characterForm().image"
-        class="w-full h-64 object-cover rounded-2xl border border-slate-700 shadow-xl">
+        [src]="characterModel().image"
+        class="w-full h-64 object-cover rounded-2xl border border-slate-700 shadow-2xl">
 
     }
 
@@ -350,16 +366,15 @@
     <div class="flex justify-end gap-3 mt-4">
 
       <button
-        class="px-5 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 transition-all"
-        (click)="hideDialog()">
+        class="px-5 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 transition-all">
 
         Cancelar
 
       </button>
 
       <button
-        class="px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 transition-all disabled:opacity-50"
-        [disabled]="!isFormValid()"
+        class="px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 transition-all disabled:opacity-50 shadow-lg"
+        [disabled]="characterForm().invalid()"
         (click)="saveCharacter()">
 
         Salvar
@@ -369,116 +384,5 @@
     </div>
 
   </ng-template>
-
-</p-dialog>
-
-<!-- DETAILS DIALOG -->
-
-<p-dialog
-  [(visible)]="detailsDialog"
-  [modal]="true"
-  [style]="{ width: '800px' }"
-  [draggable]="false"
-  [resizable]="false"
-  header="Ficha do Personagem">
-
-  @if (selectedCharacter) {
-
-    <div class="flex flex-col gap-6">
-
-      <!-- IMAGEM -->
-
-      <img
-        [src]="selectedCharacter.image"
-        class="w-full h-96 object-cover rounded-2xl border border-slate-700 shadow-2xl">
-
-      <!-- INFO -->
-
-      <div class="flex items-center justify-between">
-
-        <div>
-
-          <h2 class="text-4xl font-bold">
-            {{ selectedCharacter.name }}
-          </h2>
-
-          <p
-            [class]="
-              getClassColor(selectedCharacter.classType) +
-              ' inline-block mt-3 px-4 py-2 rounded-full text-sm font-medium'
-            ">
-
-            {{ selectedCharacter.classType }}
-
-          </p>
-
-        </div>
-
-        <div
-          class="bg-slate-800 px-5 py-3 rounded-2xl text-xl font-bold">
-
-          Level {{ selectedCharacter.level }}
-
-        </div>
-
-      </div>
-
-      <!-- STATUS -->
-
-      <div>
-
-        @if (selectedCharacter.alive) {
-
-          <span
-            class="bg-emerald-500/20 text-emerald-400 px-4 py-2 rounded-full">
-
-            Vivo
-
-          </span>
-
-        } @else {
-
-          <span
-            class="bg-red-500/20 text-red-400 px-4 py-2 rounded-full">
-
-            Morto
-
-          </span>
-
-        }
-
-      </div>
-
-      <!-- APARÊNCIA -->
-
-      <div>
-
-        <h3 class="text-xl font-bold mb-2">
-          Aparência
-        </h3>
-
-        <p class="text-slate-300 leading-7">
-          {{ selectedCharacter.appearance }}
-        </p>
-
-      </div>
-
-      <!-- HISTÓRIA -->
-
-      <div>
-
-        <h3 class="text-xl font-bold mb-2">
-          História
-        </h3>
-
-        <p class="text-slate-300 leading-7 whitespace-pre-line">
-          {{ selectedCharacter.story }}
-        </p>
-
-      </div>
-
-    </div>
-
-  }
 
 </p-dialog>

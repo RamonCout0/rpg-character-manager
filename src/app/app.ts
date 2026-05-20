@@ -1,5 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import {
+  form,
+  required,
+  minLength,
+  min
+} from '@angular/forms/signals';
+
 import { FormsModule } from '@angular/forms';
 
 import { TableModule } from 'primeng/table';
@@ -11,6 +19,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { SelectModule } from 'primeng/select';
 
 export interface Character {
+
   id: number;
 
   name: string;
@@ -52,19 +61,39 @@ export class App {
       level: 30,
       alive: true,
 
-      classType: 'Paladino',
+      classType: '🛡️ Paladino',
       appearance: 'Armadura dourada e olhos azuis.',
       story: 'Sobreviveu à queda do reino de Valdrakar.',
 
-      image: 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'
+      image:
+        'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'
     }
   ];
 
   characterDialog = false;
 
+  detailsDialog = false;
+
   editing = false;
 
-  characterForm = signal<Character>({
+  selectedCharacter: Character | null = null;
+
+  classes = [
+    '🪓 Bárbaro',
+    '🎵 Bardo',
+    '☠️ Bruxo',
+    '🙏 Clérigo',
+    '🌿 Druida',
+    '🔥 Feiticeiro',
+    '⚔️ Guerreiro',
+    '🗡️ Ladino',
+    '🧙 Mago',
+    '👊 Monge',
+    '🛡️ Paladino',
+    '🏹 Patrulheiro'
+  ];
+
+  characterModel = signal<Character>({
     id: 0,
 
     name: '',
@@ -77,33 +106,37 @@ export class App {
 
     image: ''
   });
-  selectedCharacter: Character | null = null;
 
-detailsDialog = false;
+  characterForm = form(
+    this.characterModel,
+    (path) => {
 
-viewCharacter(character: Character) {
+      required(path.name);
+      minLength(path.name, 3);
 
-  this.selectedCharacter = character;
+      required(path.classType);
+      minLength(path.classType, 3);
 
-  this.detailsDialog = true;
-}
+      required(path.appearance);
+      minLength(path.appearance, 10);
 
-  isFormValid(): boolean {
+      required(path.story);
+      minLength(path.story, 15);
 
-    const form = this.characterForm();
+      min(path.level, 1);
+    }
+  );
 
-    return (
-      form.name.trim().length >= 3 &&
-      form.classType.trim().length >= 3 &&
-      form.appearance.trim().length >= 10 &&
-      form.story.trim().length >= 15 &&
-      form.level > 0
-    );
+  viewCharacter(character: Character) {
+
+    this.selectedCharacter = character;
+
+    this.detailsDialog = true;
   }
 
   openNew() {
 
-    this.characterForm.set({
+    this.characterModel.set({
       id: 0,
 
       name: '',
@@ -118,16 +151,18 @@ viewCharacter(character: Character) {
     });
 
     this.editing = false;
+
     this.characterDialog = true;
   }
 
   editCharacter(character: Character) {
 
-    this.characterForm.set({
+    this.characterModel.set({
       ...character
     });
 
     this.editing = true;
+
     this.characterDialog = true;
   }
 
@@ -140,11 +175,11 @@ viewCharacter(character: Character) {
 
   saveCharacter() {
 
-    if (!this.isFormValid()) {
+    if (this.characterForm().invalid()) {
       return;
     }
 
-    const form = this.characterForm();
+    const form = this.characterModel();
 
     if (this.editing) {
 
@@ -156,11 +191,14 @@ viewCharacter(character: Character) {
 
     } else {
 
-      form.id = Date.now();
+      const newCharacter = {
+        ...form,
+        id: Date.now()
+      };
 
       this.characters = [
         ...this.characters,
-        { ...form }
+        newCharacter
       ];
     }
 
@@ -168,6 +206,7 @@ viewCharacter(character: Character) {
   }
 
   hideDialog() {
+
     this.characterDialog = false;
   }
 
@@ -181,75 +220,57 @@ viewCharacter(character: Character) {
 
     reader.onload = () => {
 
-      this.characterForm.update(form => ({
+      this.characterModel.update(form => ({
         ...form,
         image: reader.result as string
       }));
-
     };
 
     reader.readAsDataURL(file);
   }
- classes = [
-  '🪓 Bárbaro',
-  '🎵 Bardo',
-  '☠️ Bruxo',
-  '🙏 Clérigo',
-  '🌿 Druida',
-  '🔥 Feiticeiro',
-  '⚔️ Guerreiro',
-  '🗡️ Ladino',
-  '🧙 Mago',
-  '👊 Monge',
-  '🛡️ Paladino',
-  '🏹 Patrulheiro'
-];
-getClassColor(classType: string): string {
 
-  switch (classType) {
+  getClassColor(classType: string): string {
 
-    case '⚔️ Guerreiro':
-      return 'bg-red-500/20 text-red-300';
+    switch (classType) {
 
-    case '🧙 Mago':
-      return 'bg-blue-500/20 text-blue-300';
+      case '⚔️ Guerreiro':
+        return 'bg-red-500/20 text-red-300';
 
-    case '🛡️ Paladino':
-      return 'bg-yellow-500/20 text-yellow-300';
+      case '🧙 Mago':
+        return 'bg-blue-500/20 text-blue-300';
 
-    case '🏹 Patrulheiro':
-      return 'bg-green-500/20 text-green-300';
+      case '🛡️ Paladino':
+        return 'bg-yellow-500/20 text-yellow-300';
 
-    case '🗡️ Ladino':
-      return 'bg-slate-500/20 text-slate-300';
+      case '🏹 Patrulheiro':
+        return 'bg-green-500/20 text-green-300';
 
-    case '🔥 Feiticeiro':
-      return 'bg-orange-500/20 text-orange-300';
+      case '🗡️ Ladino':
+        return 'bg-slate-500/20 text-slate-300';
 
-    case '☠️ Bruxo':
-      return 'bg-purple-500/20 text-purple-300';
+      case '🔥 Feiticeiro':
+        return 'bg-orange-500/20 text-orange-300';
 
-    case '🎵 Bardo':
-      return 'bg-pink-500/20 text-pink-300';
+      case '☠️ Bruxo':
+        return 'bg-purple-500/20 text-purple-300';
 
-    case '🌿 Druida':
-      return 'bg-emerald-500/20 text-emerald-300';
+      case '🎵 Bardo':
+        return 'bg-pink-500/20 text-pink-300';
 
-    case '🙏 Clérigo':
-      return 'bg-cyan-500/20 text-cyan-300';
+      case '🌿 Druida':
+        return 'bg-emerald-500/20 text-emerald-300';
 
-    case '👊 Monge':
-      return 'bg-amber-500/20 text-amber-300';
+      case '🙏 Clérigo':
+        return 'bg-cyan-500/20 text-cyan-300';
 
-    case '🪓 Bárbaro':
-      return 'bg-rose-500/20 text-rose-300';
+      case '👊 Monge':
+        return 'bg-amber-500/20 text-amber-300';
 
-    default:
-      return 'bg-slate-500/20 text-slate-300';
+      case '🪓 Bárbaro':
+        return 'bg-rose-500/20 text-rose-300';
+
+      default:
+        return 'bg-slate-500/20 text-slate-300';
+    }
   }
 }
-
-}
-
-
-
