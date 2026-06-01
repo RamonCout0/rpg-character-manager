@@ -1,0 +1,19 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="visible.set($event)"
+  [modal]="true"
+  [style]="{ width: '700px' }"
+  [draggable]="false"
+  [resizable]="false"
+  header="Incluir Personagem"
+  styleClass="rounded-3xl overflow-hidden border border-slate-700"
+  (onShow)="draft.set({ id: 0, name: '', level: 1, alive: true, classType: '', appearance: '', story: '', image: '' })">
+
+  <app-character-form-fields
+    [(character)]="draft"
+    [classes]="classes()"
+    saveLabel="Incluir"
+    (save)="save()"
+    (cancel)="resetAndClose()">
+  </app-character-form-fields>
+</p-dialog>
