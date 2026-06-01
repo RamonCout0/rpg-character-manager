@@ -1,0 +1,119 @@
+<div class="flex flex-col gap-5 mt-3">
+  <div class="flex flex-col gap-2">
+    <label class="font-semibold" for="character-name">Nome</label>
+    <input
+      id="character-name"
+      pInputText
+      [ngModel]="character().name"
+      (ngModelChange)="updateField('name', $event)"
+      placeholder="Nome do personagem"
+      class="w-full">
+
+    @if (character().name.length > 0 && character().name.trim().length < 3) {
+      <small class="text-red-400">O nome precisa ter pelo menos 3 letras.</small>
+    }
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="font-semibold" for="character-class">Classe</label>
+    <p-select
+      inputId="character-class"
+      [options]="classes()"
+      [ngModel]="character().classType"
+      (ngModelChange)="updateField('classType', $event)"
+      placeholder="Selecione uma classe"
+      styleClass="w-full">
+    </p-select>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="font-semibold" for="character-level">Nível</label>
+    <p-inputnumber
+      inputId="character-level"
+      [ngModel]="character().level"
+      (ngModelChange)="updateField('level', $event ?? 1)"
+      [min]="1"
+      styleClass="w-full"
+      inputStyleClass="w-full">
+    </p-inputnumber>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="font-semibold" for="character-appearance">Aparência</label>
+    <textarea
+      id="character-appearance"
+      rows="3"
+      [ngModel]="character().appearance"
+      (ngModelChange)="updateField('appearance', $event)"
+      class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white"
+      placeholder="Descreva a aparência do personagem">
+    </textarea>
+
+    @if (character().appearance.length > 0 && character().appearance.trim().length < 10) {
+      <small class="text-red-400">A aparência precisa ter pelo menos 10 caracteres.</small>
+    }
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="font-semibold" for="character-story">História</label>
+    <textarea
+      id="character-story"
+      rows="4"
+      [ngModel]="character().story"
+      (ngModelChange)="updateField('story', $event)"
+      class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white"
+      placeholder="Conte a história do personagem">
+    </textarea>
+
+    @if (character().story.length > 0 && character().story.trim().length < 15) {
+      <small class="text-red-400">A história precisa ter pelo menos 15 caracteres.</small>
+    }
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <label class="font-semibold" for="character-image">URL da imagem</label>
+    <input
+      id="character-image"
+      pInputText
+      [ngModel]="character().image"
+      (ngModelChange)="updateField('image', $event)"
+      placeholder="https://imagem.com/personagem.jpg"
+      class="w-full">
+  </div>
+
+  <div class="flex items-center gap-3">
+    <p-checkbox
+      inputId="character-alive"
+      [ngModel]="character().alive"
+      (ngModelChange)="updateField('alive', $event)"
+      [binary]="true"
+      styleClass="scale-125">
+    </p-checkbox>
+
+    <label for="character-alive">Personagem vivo</label>
+  </div>
+
+  @if (character().image) {
+    <img
+      [src]="character().image"
+      [alt]="character().name || 'Prévia do personagem'"
+      class="w-full h-64 object-cover rounded-2xl border border-slate-700 shadow-2xl">
+  }
+</div>
+
+<div class="flex justify-end gap-3 mt-6">
+  <button
+    type="button"
+    class="px-5 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 transition-all"
+    (click)="cancel.emit()">
+    Cancelar
+  </button>
+
+  <button
+    type="button"
+    class="px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 transition-all disabled:opacity-50 shadow-lg"
+    [disabled]="formInvalid()"
+    (click)="save.emit()">
+    {{ saveLabel() }}
+  </button>
+</div>

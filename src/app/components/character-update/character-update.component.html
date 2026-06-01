@@ -1,0 +1,18 @@
+<p-dialog
+  [visible]="visible()"
+  (visibleChange)="visible.set($event)"
+  [modal]="true"
+  [style]="{ width: '700px' }"
+  [draggable]="false"
+  [resizable]="false"
+  header="Alterar Personagem"
+  styleClass="rounded-3xl overflow-hidden border border-slate-700">
+
+  <app-character-form-fields
+    [(character)]="draft"
+    [classes]="classes()"
+    saveLabel="Salvar Alterações"
+    (save)="save()"
+    (cancel)="close()">
+  </app-character-form-fields>
+</p-dialog>
