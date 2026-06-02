@@ -1,6 +1,6 @@
 <p-dialog
-  [visible]="visible()"
-  (visibleChange)="visible.set($event)"
+  [visible]="service.detailVisible()"
+  (visibleChange)="service.detailVisible.set($event)"
   [modal]="true"
   [style]="{ width: '680px' }"
   [draggable]="false"
@@ -8,7 +8,7 @@
   header="Detalhes do Personagem"
   styleClass="rounded-3xl overflow-hidden border border-slate-700">
 
-  @if (character(); as selectedCharacter) {
+  @if (service.selectedCharacter(); as selectedCharacter) {
     <article class="flex flex-col gap-5">
       <img
         [src]="selectedCharacter.image || 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'"

@@ -1,5 +1,5 @@
 <div class="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">
-  <p-table [value]="characters()" styleClass="p-datatable-striped p-datatable-sm">
+  <p-table [value]="service.characters()" styleClass="p-datatable-striped p-datatable-sm">
     <ng-template pTemplate="header">
       <tr>
         <th class="!bg-slate-900 !text-slate-200">Personagem</th>
@@ -58,7 +58,7 @@
               type="button"
               aria-label="Visualizar personagem"
               class="w-11 h-11 rounded-xl bg-violet-500 hover:bg-violet-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
-              (click)="view.emit(character)">
+              (click)="service.openDetail(character)">
               <i class="pi pi-eye text-black"></i>
             </button>
 
@@ -66,7 +66,7 @@
               type="button"
               aria-label="Editar personagem"
               class="w-11 h-11 rounded-xl bg-cyan-500 hover:bg-cyan-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
-              (click)="edit.emit(character)">
+              (click)="service.openUpdate(character)">
               <i class="pi pi-pencil text-black"></i>
             </button>
 
@@ -74,7 +74,7 @@
               type="button"
               aria-label="Remover personagem"
               class="w-11 h-11 rounded-xl bg-red-500 hover:bg-red-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
-              (click)="remove.emit(character)">
+              (click)="service.openRemove(character)">
               <i class="pi pi-trash text-black"></i>
             </button>
           </div>

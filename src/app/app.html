@@ -15,38 +15,14 @@
       icon="pi pi-plus"
       severity="contrast"
       styleClass="!px-6 !py-3 !rounded-2xl !font-bold shadow-xl hover:scale-105 transition-all"
-      (onClick)="openInsert()">
+      (onClick)="service.openInsert()">
     </p-button>
   </div>
 
-  <app-character-list
-    [characters]="characters()"
-    (view)="openDetail($event)"
-    (edit)="openUpdate($event)"
-    (remove)="openRemove($event)">
-  </app-character-list>
+  <app-character-list></app-character-list>
 </div>
 
-<app-character-insert
-  [(visible)]="insertVisible"
-  [classes]="classes"
-  (insert)="addCharacter($event)">
-</app-character-insert>
-
-<app-character-detail
-  [(visible)]="detailVisible"
-  [character]="selectedDetailCharacter()">
-</app-character-detail>
-
-<app-character-update
-  [(visible)]="updateVisible"
-  [character]="selectedUpdateCharacter()"
-  [classes]="classes"
-  (update)="updateCharacter($event)">
-</app-character-update>
-
-<app-character-remove
-  [(visible)]="removeVisible"
-  [character]="selectedRemoveCharacter()"
-  (confirmRemove)="removeCharacter($event)">
-</app-character-remove>
+<app-character-insert></app-character-insert>
+<app-character-detail></app-character-detail>
+<app-character-update></app-character-update>
+<app-character-remove></app-character-remove>

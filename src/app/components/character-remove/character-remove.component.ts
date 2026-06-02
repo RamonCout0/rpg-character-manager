@@ -1,9 +1,9 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
-import { Character } from '../../models/character';
+import { CharacterService } from '../../services/character.service';
 
 @Component({
   selector: 'app-character-remove',
@@ -12,23 +12,17 @@ import { Character } from '../../models/character';
   templateUrl: './character-remove.component.html'
 })
 export class CharacterRemoveComponent {
-  visible = model(false);
-  character = input<Character | null>(null);
-
-  confirmRemove = output<number>();
+  protected readonly service = inject(CharacterService);
 
   cancel(): void {
-    this.visible.set(false);
+    this.service.removeVisible.set(false);
   }
 
   confirm(): void {
-    const character = this.character();
+    const character = this.service.selectedCharacter();
+    if (!character) return;
 
-    if (!character) {
-      return;
-    }
-
-    this.confirmRemove.emit(character.id);
-    this.visible.set(false);
+    this.service.remove(character.id);
+    this.service.removeVisible.set(false);
   }
 }

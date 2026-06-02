@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 
-import { Character } from '../../models/character';
+import { CharacterService } from '../../services/character.service';
 
 @Component({
   selector: 'app-character-list',
@@ -13,11 +13,7 @@ import { Character } from '../../models/character';
   templateUrl: './character-list.component.html'
 })
 export class CharacterListComponent {
-  characters = input.required<Character[]>();
-
-  view = output<Character>();
-  edit = output<Character>();
-  remove = output<Character>();
+  protected readonly service = inject(CharacterService);
 
   getClassColor(classType: string): string {
     switch (classType) {

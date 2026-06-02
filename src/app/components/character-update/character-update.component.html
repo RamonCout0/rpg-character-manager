@@ -1,6 +1,6 @@
 <p-dialog
-  [visible]="visible()"
-  (visibleChange)="visible.set($event)"
+  [visible]="service.updateVisible()"
+  (visibleChange)="service.updateVisible.set($event)"
   [modal]="true"
   [style]="{ width: '700px' }"
   [draggable]="false"
@@ -10,7 +10,7 @@
 
   <app-character-form-fields
     [(character)]="draft"
-    [classes]="classes()"
+    [classes]="service.classes"
     saveLabel="Salvar Alterações"
     (save)="save()"
     (cancel)="close()">

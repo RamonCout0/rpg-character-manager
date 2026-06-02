@@ -1,9 +1,10 @@
-import { Component, effect, input, model, output, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 
 import { DialogModule } from 'primeng/dialog';
 
 import { emptyCharacter } from '../../data/character-classes';
 import { Character } from '../../models/character';
+import { CharacterService } from '../../services/character.service';
 import { CharacterFormFieldsComponent } from '../character-form-fields/character-form-fields.component';
 
 @Component({
@@ -13,18 +14,14 @@ import { CharacterFormFieldsComponent } from '../character-form-fields/character
   templateUrl: './character-update.component.html'
 })
 export class CharacterUpdateComponent {
-  visible = model(false);
-  character = input<Character | null>(null);
-  classes = input.required<string[]>();
-
-  update = output<Character>();
+  protected readonly service = inject(CharacterService);
 
   draft = signal<Character>(emptyCharacter());
 
   constructor() {
+    // Sempre que o personagem selecionado mudar, carrega o rascunho para edição
     effect(() => {
-      const character = this.character();
-
+      const character = this.service.selectedCharacter();
       if (character) {
         this.draft.set({ ...character });
       }
@@ -32,11 +29,11 @@ export class CharacterUpdateComponent {
   }
 
   close(): void {
-    this.visible.set(false);
+    this.service.updateVisible.set(false);
   }
 
   save(): void {
-    this.update.emit({ ...this.draft() });
+    this.service.update({ ...this.draft() });
     this.close();
   }
 }

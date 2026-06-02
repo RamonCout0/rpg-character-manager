@@ -1,9 +1,10 @@
-import { Component, input, model, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 import { DialogModule } from 'primeng/dialog';
 
-import { Character } from '../../models/character';
 import { emptyCharacter } from '../../data/character-classes';
+import { Character } from '../../models/character';
+import { CharacterService } from '../../services/character.service';
 import { CharacterFormFieldsComponent } from '../character-form-fields/character-form-fields.component';
 
 @Component({
@@ -13,24 +14,17 @@ import { CharacterFormFieldsComponent } from '../character-form-fields/character
   templateUrl: './character-insert.component.html'
 })
 export class CharacterInsertComponent {
-  visible = model(false);
-  classes = input.required<string[]>();
-
-  insert = output<Character>();
+  protected readonly service = inject(CharacterService);
 
   draft = signal<Character>(emptyCharacter());
 
   resetAndClose(): void {
     this.draft.set(emptyCharacter());
-    this.visible.set(false);
+    this.service.insertVisible.set(false);
   }
 
   save(): void {
-    this.insert.emit({
-      ...this.draft(),
-      id: Date.now()
-    });
-
+    this.service.insert(this.draft());
     this.resetAndClose();
   }
 }

@@ -1,6 +1,6 @@
 <p-dialog
-  [visible]="visible()"
-  (visibleChange)="visible.set($event)"
+  [visible]="service.insertVisible()"
+  (visibleChange)="service.insertVisible.set($event)"
   [modal]="true"
   [style]="{ width: '700px' }"
   [draggable]="false"
@@ -11,7 +11,7 @@
 
   <app-character-form-fields
     [(character)]="draft"
-    [classes]="classes()"
+    [classes]="service.classes"
     saveLabel="Incluir"
     (save)="save()"
     (cancel)="resetAndClose()">

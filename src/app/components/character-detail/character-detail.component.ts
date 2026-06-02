@@ -1,8 +1,8 @@
-import { Component, input, model } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { DialogModule } from 'primeng/dialog';
 
-import { Character } from '../../models/character';
+import { CharacterService } from '../../services/character.service';
 
 @Component({
   selector: 'app-character-detail',
@@ -11,6 +11,5 @@ import { Character } from '../../models/character';
   templateUrl: './character-detail.component.html'
 })
 export class CharacterDetailComponent {
-  visible = model(false);
-  character = input<Character | null>(null);
+  protected readonly service = inject(CharacterService);
 }
