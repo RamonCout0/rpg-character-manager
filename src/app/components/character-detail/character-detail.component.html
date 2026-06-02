@@ -1,37 +1,69 @@
-<p-dialog
-  [visible]="service.detailVisible()"
-  (visibleChange)="service.detailVisible.set($event)"
-  [modal]="true"
-  [style]="{ width: '680px' }"
-  [draggable]="false"
-  [resizable]="false"
-  header="Detalhes do Personagem"
-  styleClass="rounded-3xl overflow-hidden border border-slate-700">
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-white">
+  <div class="max-w-2xl mx-auto">
 
-  @if (service.selectedCharacter(); as selectedCharacter) {
-    <article class="flex flex-col gap-5">
-      <img
-        [src]="selectedCharacter.image || 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'"
-        [alt]="selectedCharacter.name"
-        class="w-full h-72 object-cover rounded-2xl border border-slate-700 shadow-2xl">
+    <!-- Navegação -->
+    <div class="flex items-center gap-4 mb-8">
+      <a
+        routerLink="/characters"
+        class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+        <i class="pi pi-arrow-left"></i> Voltar para a lista
+      </a>
+    </div>
 
-      <div>
-        <h2 class="text-3xl font-black text-white">{{ selectedCharacter.name }}</h2>
-        <p class="text-slate-400 mt-1">
-          {{ selectedCharacter.classType }} • Level {{ selectedCharacter.level }} •
-          {{ selectedCharacter.alive ? 'Vivo' : 'Morto' }}
-        </p>
-      </div>
+    @if (character(); as c) {
+      <article class="flex flex-col gap-6">
 
-      <section class="bg-slate-900/80 border border-slate-700 rounded-2xl p-4">
-        <h3 class="font-bold text-cyan-300 mb-2">Aparência</h3>
-        <p class="text-slate-200 leading-relaxed">{{ selectedCharacter.appearance }}</p>
-      </section>
+        <!-- Imagem + nome -->
+        <div class="relative">
+          <img
+            [src]="c.image || 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'"
+            [alt]="c.name"
+            class="w-full h-80 object-cover rounded-3xl border border-slate-700 shadow-2xl">
 
-      <section class="bg-slate-900/80 border border-slate-700 rounded-2xl p-4">
-        <h3 class="font-bold text-violet-300 mb-2">História</h3>
-        <p class="text-slate-200 leading-relaxed">{{ selectedCharacter.story }}</p>
-      </section>
-    </article>
-  }
-</p-dialog>
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-950/90 to-transparent p-6 rounded-b-3xl">
+            <h1 class="text-4xl font-black text-white">{{ c.name }}</h1>
+            <p class="text-slate-300 mt-1">
+              {{ c.classType }} &bull; Level {{ c.level }} &bull;
+              <span [class]="c.alive ? 'text-emerald-400' : 'text-red-400'">
+                {{ c.alive ? 'Vivo' : 'Morto' }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Aparência -->
+        <section class="bg-slate-900/80 border border-slate-700 rounded-2xl p-6">
+          <h2 class="font-bold text-cyan-300 mb-3 text-lg">Aparência</h2>
+          <p class="text-slate-200 leading-relaxed">{{ c.appearance }}</p>
+        </section>
+
+        <!-- História -->
+        <section class="bg-slate-900/80 border border-slate-700 rounded-2xl p-6">
+          <h2 class="font-bold text-violet-300 mb-3 text-lg">História</h2>
+          <p class="text-slate-200 leading-relaxed">{{ c.story }}</p>
+        </section>
+
+        <!-- Ações -->
+        <div class="flex gap-3 justify-end">
+          <button
+            type="button"
+            class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-400 text-black font-bold transition-all hover:scale-105 shadow-lg"
+            (click)="goToUpdate()">
+            <i class="pi pi-pencil"></i> Editar personagem
+          </button>
+
+          <button
+            type="button"
+            class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-500 font-bold transition-all hover:scale-105 shadow-lg"
+            (click)="service.openRemove(c)">
+            <i class="pi pi-trash"></i> Remover
+          </button>
+        </div>
+
+      </article>
+    }
+  </div>
+</div>
+
+<!-- Modal de remoção acessível também pelo detalhe -->
+<app-character-remove></app-character-remove>

@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 
-import { CHARACTER_CLASSES, emptyCharacter } from '../data/character-classes';
+import { CHARACTER_CLASSES } from '../data/character-classes';
 import { Character } from '../models/character';
 
 @Injectable({
@@ -24,13 +24,8 @@ export class CharacterService {
     }
   ]);
 
-  // Estado: personagem selecionado (compartilhado entre detalhe, edição e remoção)
+  // Estado: personagem selecionado para remoção e visibilidade do modal
   readonly selectedCharacter = signal<Character | null>(null);
-
-  // Estado: visibilidade dos modais
-  readonly insertVisible = signal(false);
-  readonly detailVisible = signal(false);
-  readonly updateVisible = signal(false);
   readonly removeVisible = signal(false);
 
   // ── Operações CRUD ──────────────────────────────────────────────────────────
@@ -47,39 +42,25 @@ export class CharacterService {
 
   /** Insere um novo personagem na lista. */
   insert(character: Character): void {
-    this.characters.update(characters => [
-      ...characters,
+    this.characters.update(list => [
+      ...list,
       { ...character, id: Date.now() }
     ]);
   }
 
   /** Atualiza um personagem existente. */
   update(updatedCharacter: Character): void {
-    this.characters.update(characters =>
-      characters.map(c => (c.id === updatedCharacter.id ? { ...updatedCharacter } : c))
+    this.characters.update(list =>
+      list.map(c => (c.id === updatedCharacter.id ? { ...updatedCharacter } : c))
     );
   }
 
   /** Remove um personagem pelo id. */
   remove(id: number): void {
-    this.characters.update(characters => characters.filter(c => c.id !== id));
+    this.characters.update(list => list.filter(c => c.id !== id));
   }
 
-  // ── Controle de modais ──────────────────────────────────────────────────────
-
-  openInsert(): void {
-    this.insertVisible.set(true);
-  }
-
-  openDetail(character: Character): void {
-    this.selectedCharacter.set(character);
-    this.detailVisible.set(true);
-  }
-
-  openUpdate(character: Character): void {
-    this.selectedCharacter.set(character);
-    this.updateVisible.set(true);
-  }
+  // ── Controle do modal de remoção (único modal mantido) ────────────────────────
 
   openRemove(character: Character): void {
     this.selectedCharacter.set(character);

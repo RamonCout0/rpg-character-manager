@@ -1,19 +1,33 @@
-<p-dialog
-  [visible]="service.insertVisible()"
-  (visibleChange)="service.insertVisible.set($event)"
-  [modal]="true"
-  [style]="{ width: '700px' }"
-  [draggable]="false"
-  [resizable]="false"
-  header="Incluir Personagem"
-  styleClass="rounded-3xl overflow-hidden border border-slate-700"
-  (onShow)="draft.set({ id: 0, name: '', level: 1, alive: true, classType: '', appearance: '', story: '', image: '' })">
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-white">
+  <div class="max-w-2xl mx-auto">
 
-  <app-character-form-fields
-    [(character)]="draft"
-    [classes]="service.classes"
-    saveLabel="Incluir"
-    (save)="save()"
-    (cancel)="resetAndClose()">
-  </app-character-form-fields>
-</p-dialog>
+    <!-- Navegação -->
+    <div class="flex items-center gap-4 mb-8">
+      <a
+        routerLink="/characters"
+        class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors">
+        <i class="pi pi-arrow-left"></i> Voltar para a lista
+      </a>
+    </div>
+
+    <!-- Cabeçalho da página -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-black bg-gradient-to-r from-violet-400 to-fuchsia-500 bg-clip-text text-transparent">
+        ✨ Novo Personagem
+      </h1>
+      <p class="text-slate-400 mt-1">Preencha os campos para adicionar um personagem à campanha.</p>
+    </div>
+
+    <!-- Formulário reutilizável -->
+    <div class="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl p-6">
+      <app-character-form-fields
+        [(character)]="draft"
+        [classes]="service.classes"
+        saveLabel="Incluir Personagem"
+        (save)="save()"
+        (cancel)="cancel()">
+      </app-character-form-fields>
+    </div>
+
+  </div>
+</div>

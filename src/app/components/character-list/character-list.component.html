@@ -1,93 +1,120 @@
-<div class="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">
-  <p-table [value]="service.characters()" styleClass="p-datatable-striped p-datatable-sm">
-    <ng-template pTemplate="header">
-      <tr>
-        <th class="!bg-slate-900 !text-slate-200">Personagem</th>
-        <th class="!bg-slate-900 !text-slate-200">Classe</th>
-        <th class="!bg-slate-900 !text-slate-200">Nível</th>
-        <th class="!bg-slate-900 !text-slate-200">Status</th>
-        <th class="!bg-slate-900 !text-slate-200">Ações</th>
-      </tr>
-    </ng-template>
+<div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-white">
 
-    <ng-template pTemplate="body" let-character>
-      <tr class="hover:!bg-slate-800/50 transition-all duration-200">
-        <td>
-          <div class="flex items-center gap-4">
-            <img
-              [src]="character.image || 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'"
-              [alt]="character.name"
-              class="w-20 h-20 rounded-2xl object-cover border border-slate-700 shadow-xl">
+  <!-- Cabeçalho -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+    <div>
+      <h1 class="text-5xl font-black tracking-tight bg-gradient-to-r from-violet-400 via-cyan-400 to-fuchsia-500 bg-clip-text text-transparent drop-shadow-lg">
+        🎲 RPG Character Manager
+      </h1>
+      <p class="text-slate-400 mt-2 text-lg">
+        Gerencie seus personagens de mesa com Angular Routing.
+      </p>
+    </div>
 
-            <div class="max-w-[350px]">
-              <div class="font-bold text-xl">{{ character.name }}</div>
-              <div class="text-slate-400 text-sm mt-1 truncate">
-                {{ character.appearance.slice(0, 60) }}...
+    <a
+      routerLink="/characters/new"
+      class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold bg-white text-black shadow-xl hover:scale-105 transition-all cursor-pointer">
+      <i class="pi pi-plus"></i> Novo Personagem
+    </a>
+  </div>
+
+  <!-- Tabela -->
+  <div class="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">
+    <p-table [value]="service.characters()" styleClass="p-datatable-striped p-datatable-sm">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="!bg-slate-900 !text-slate-200">Personagem</th>
+          <th class="!bg-slate-900 !text-slate-200">Classe</th>
+          <th class="!bg-slate-900 !text-slate-200">Nível</th>
+          <th class="!bg-slate-900 !text-slate-200">Status</th>
+          <th class="!bg-slate-900 !text-slate-200">Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-character>
+        <tr class="hover:!bg-slate-800/50 transition-all duration-200">
+          <td>
+            <div class="flex items-center gap-4">
+              <img
+                [src]="character.image || 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'"
+                [alt]="character.name"
+                class="w-20 h-20 rounded-2xl object-cover border border-slate-700 shadow-xl">
+              <div class="max-w-[350px]">
+                <div class="font-bold text-xl">{{ character.name }}</div>
+                <div class="text-slate-400 text-sm mt-1 truncate">
+                  {{ character.appearance.slice(0, 60) }}...
+                </div>
               </div>
             </div>
-          </div>
-        </td>
+          </td>
 
-        <td>
-          <span [class]="getClassColor(character.classType) + ' px-4 py-2 rounded-full text-sm font-bold shadow-lg'">
-            {{ character.classType }}
-          </span>
-        </td>
-
-        <td>
-          <div class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl inline-block font-bold shadow-md">
-            Level {{ character.level }}
-          </div>
-        </td>
-
-        <td>
-          @if (character.alive) {
-            <span class="bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-bold">
-              Vivo
+          <td>
+            <span [class]="getClassColor(character.classType) + ' px-4 py-2 rounded-full text-sm font-bold shadow-lg'">
+              {{ character.classType }}
             </span>
-          } @else {
-            <span class="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-2 rounded-full text-sm font-bold">
-              Morto
-            </span>
-          }
-        </td>
+          </td>
 
-        <td>
-          <div class="flex gap-3">
-            <button
-              type="button"
-              aria-label="Visualizar personagem"
-              class="w-11 h-11 rounded-xl bg-violet-500 hover:bg-violet-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
-              (click)="service.openDetail(character)">
-              <i class="pi pi-eye text-black"></i>
-            </button>
+          <td>
+            <div class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl inline-block font-bold shadow-md">
+              Level {{ character.level }}
+            </div>
+          </td>
 
-            <button
-              type="button"
-              aria-label="Editar personagem"
-              class="w-11 h-11 rounded-xl bg-cyan-500 hover:bg-cyan-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
-              (click)="service.openUpdate(character)">
-              <i class="pi pi-pencil text-black"></i>
-            </button>
+          <td>
+            @if (character.alive) {
+              <span class="bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-full text-sm font-bold">
+                Vivo
+              </span>
+            } @else {
+              <span class="bg-red-500/20 border border-red-500/30 text-red-400 px-4 py-2 rounded-full text-sm font-bold">
+                Morto
+              </span>
+            }
+          </td>
 
-            <button
-              type="button"
-              aria-label="Remover personagem"
-              class="w-11 h-11 rounded-xl bg-red-500 hover:bg-red-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
-              (click)="service.openRemove(character)">
-              <i class="pi pi-trash text-black"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
+          <td>
+            <div class="flex gap-3">
+              <!-- Navega para /characters/:id -->
+              <button
+                type="button"
+                aria-label="Visualizar personagem"
+                class="w-11 h-11 rounded-xl bg-violet-500 hover:bg-violet-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
+                (click)="goToDetail(character)">
+                <i class="pi pi-eye text-black"></i>
+              </button>
 
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="5" class="text-center text-slate-300 py-10">
-          Nenhum personagem cadastrado. Clique em "Novo Personagem" para começar.
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+              <!-- Navega para /characters/:id/edit -->
+              <button
+                type="button"
+                aria-label="Editar personagem"
+                class="w-11 h-11 rounded-xl bg-cyan-500 hover:bg-cyan-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
+                (click)="goToUpdate(character)">
+                <i class="pi pi-pencil text-black"></i>
+              </button>
+
+              <!-- Abre modal de confirmação (permanece na listagem) -->
+              <button
+                type="button"
+                aria-label="Remover personagem"
+                class="w-11 h-11 rounded-xl bg-red-500 hover:bg-red-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
+                (click)="service.openRemove(character)">
+                <i class="pi pi-trash text-black"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center text-slate-300 py-10">
+            Nenhum personagem cadastrado. Clique em "Novo Personagem" para começar.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>
+
+<!-- Modal de remoção permanece na listagem -->
+<app-character-remove></app-character-remove>

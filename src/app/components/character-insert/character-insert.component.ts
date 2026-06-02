@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-
-import { DialogModule } from 'primeng/dialog';
+import { Router, RouterLink } from '@angular/router';
 
 import { emptyCharacter } from '../../data/character-classes';
 import { Character } from '../../models/character';
@@ -10,21 +9,21 @@ import { CharacterFormFieldsComponent } from '../character-form-fields/character
 @Component({
   selector: 'app-character-insert',
   standalone: true,
-  imports: [DialogModule, CharacterFormFieldsComponent],
+  imports: [RouterLink, CharacterFormFieldsComponent],
   templateUrl: './character-insert.component.html'
 })
 export class CharacterInsertComponent {
   protected readonly service = inject(CharacterService);
+  private readonly router = inject(Router);
 
   draft = signal<Character>(emptyCharacter());
 
-  resetAndClose(): void {
-    this.draft.set(emptyCharacter());
-    this.service.insertVisible.set(false);
+  cancel(): void {
+    this.router.navigate(['/characters']);
   }
 
   save(): void {
     this.service.insert(this.draft());
-    this.resetAndClose();
+    this.router.navigate(['/characters']);
   }
 }
