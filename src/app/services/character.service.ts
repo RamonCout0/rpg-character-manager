@@ -8,6 +8,7 @@ import { Character } from '../models/character';
 })
 export class CharacterService {
  
+  readonly classes = CHARACTER_CLASSES;
 
   readonly characters = signal<Character[]>([
     {

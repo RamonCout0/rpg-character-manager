@@ -17,22 +17,19 @@ export class CharacterUpdateComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
-
   draft = signal<Character>(emptyCharacter());
 
   ngOnInit(): void {
-    
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       const found = this.service.getById(id);
 
       if (!found) {
-       
         this.router.navigate(['/characters']);
         return;
       }
 
-     
+      // Clona o objeto para não alterar o serviço antes de clicar em salvar
       this.draft.set({ ...found });
     });
   }
