@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, model, output } from '@angular/core';
 
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 
+import { Character } from '../../models/character';
 import { CharacterService } from '../../services/character.service';
 
 @Component({
@@ -12,17 +13,25 @@ import { CharacterService } from '../../services/character.service';
   templateUrl: './character-remove.component.html'
 })
 export class CharacterRemoveComponent {
-  protected readonly service = inject(CharacterService);
+  private readonly service = inject(CharacterService);
+
+  // Controla a visibilidade do modal (Two-way data binding baseado em Signals)
+  visible = model<boolean>(false);
+  
+  // Recebe o personagem que deve ser exibido/removido
+  character = model<Character | null>(null);
 
   cancel(): void {
-    this.service.removeVisible.set(false);
+    this.visible.set(false);
+    this.character.set(null); // Limpa o estado ao fechar
   }
 
   confirm(): void {
-    const character = this.service.selectedCharacter();
-    if (!character) return;
+    const activeCharacter = this.character();
+    if (!activeCharacter) return;
 
-    this.service.remove(character.id);
-    this.service.removeVisible.set(false);
+    this.service.remove(activeCharacter.id);
+    this.visible.set(false);
+    this.character.set(null); // Limpa o estado após remover
   }
 }

@@ -18,15 +18,16 @@ export class CharacterDetailComponent implements OnInit {
 
   /** Personagem carregado a partir do id recebido na rota. */
   character = signal<Character | null>(null);
+  
+  // Controle local para exibir o modal nesta tela
+  removeVisible = signal<boolean>(false);
 
   ngOnInit(): void {
-    // Lê o parâmetro :id enviado pela listagem ao ativar esta rota
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       const found = this.service.getById(id);
 
       if (!found) {
-        // Id inválido: volta para a listagem
         this.router.navigate(['/characters']);
         return;
       }
@@ -40,5 +41,10 @@ export class CharacterDetailComponent implements OnInit {
     if (character) {
       this.router.navigate(['/characters', character.id, 'edit']);
     }
+  }
+
+  // Abre o modal local
+  openRemove(): void {
+    this.removeVisible.set(true);
   }
 }

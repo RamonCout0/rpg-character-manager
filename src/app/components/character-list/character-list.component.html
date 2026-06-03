@@ -1,6 +1,5 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-white">
 
-  <!-- Cabeçalho -->
   <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
     <div>
       <h1 class="text-5xl font-black tracking-tight bg-gradient-to-r from-violet-400 via-cyan-400 to-fuchsia-500 bg-clip-text text-transparent drop-shadow-lg">
@@ -18,7 +17,6 @@
     </a>
   </div>
 
-  <!-- Tabela -->
   <div class="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">
     <p-table [value]="service.characters()" styleClass="p-datatable-striped p-datatable-sm">
       <ng-template pTemplate="header">
@@ -74,7 +72,6 @@
 
           <td>
             <div class="flex gap-3">
-              <!-- Navega para /characters/:id -->
               <button
                 type="button"
                 aria-label="Visualizar personagem"
@@ -83,7 +80,6 @@
                 <i class="pi pi-eye text-black"></i>
               </button>
 
-              <!-- Navega para /characters/:id/edit -->
               <button
                 type="button"
                 aria-label="Editar personagem"
@@ -92,12 +88,11 @@
                 <i class="pi pi-pencil text-black"></i>
               </button>
 
-              <!-- Abre modal de confirmação (permanece na listagem) -->
               <button
                 type="button"
                 aria-label="Remover personagem"
                 class="w-11 h-11 rounded-xl bg-red-500 hover:bg-red-400 hover:scale-110 transition-all duration-200 flex items-center justify-center shadow-lg"
-                (click)="service.openRemove(character)">
+                (click)="openRemoveModal(character)">
                 <i class="pi pi-trash text-black"></i>
               </button>
             </div>
@@ -116,5 +111,7 @@
   </div>
 </div>
 
-<!-- Modal de remoção permanece na listagem -->
-<app-character-remove></app-character-remove>
+<app-character-remove 
+  [(visible)]="removeVisible" 
+  [(character)]="selectedCharacter">
+</app-character-remove>

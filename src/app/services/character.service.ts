@@ -7,9 +7,7 @@ import { Character } from '../models/character';
   providedIn: 'root'
 })
 export class CharacterService {
-
-  readonly classes = CHARACTER_CLASSES;
-
+ 
 
   readonly characters = signal<Character[]>([
     {
@@ -24,21 +22,14 @@ export class CharacterService {
     }
   ]);
 
-
-  readonly selectedCharacter = signal<Character | null>(null);
-  readonly removeVisible = signal(false);
-
-
   list(): Character[] {
     return this.characters();
   }
 
-  
   getById(id: number): Character | undefined {
     return this.characters().find(c => c.id === id);
   }
 
-  
   insert(character: Character): void {
     this.characters.update(list => [
       ...list,
@@ -46,22 +37,13 @@ export class CharacterService {
     ]);
   }
 
- 
   update(updatedCharacter: Character): void {
     this.characters.update(list =>
       list.map(c => (c.id === updatedCharacter.id ? { ...updatedCharacter } : c))
     );
   }
 
-
   remove(id: number): void {
     this.characters.update(list => list.filter(c => c.id !== id));
-  }
-
-
-
-  openRemove(character: Character): void {
-    this.selectedCharacter.set(character);
-    this.removeVisible.set(true);
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
@@ -19,14 +19,22 @@ export class CharacterListComponent {
   protected readonly service = inject(CharacterService);
   private readonly router = inject(Router);
 
-  
+  // Estados locais para controlar o modal de remoção nesta tela
+  removeVisible = signal<boolean>(false);
+  selectedCharacter = signal<Character | null>(null);
+
   goToDetail(character: Character): void {
     this.router.navigate(['/characters', character.id]);
   }
 
-  
   goToUpdate(character: Character): void {
     this.router.navigate(['/characters', character.id, 'edit']);
+  }
+
+  // Método chamado pelo botão da tabela
+  openRemoveModal(character: Character): void {
+    this.selectedCharacter.set(character);
+    this.removeVisible.set(true);
   }
 
   getClassColor(classType: string): string {

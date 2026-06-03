@@ -1,7 +1,6 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-white">
   <div class="max-w-2xl mx-auto">
 
-    <!-- Navegação -->
     <div class="flex items-center gap-4 mb-8">
       <a
         routerLink="/characters"
@@ -13,7 +12,6 @@
     @if (character(); as c) {
       <article class="flex flex-col gap-6">
 
-        <!-- Imagem + nome -->
         <div class="relative">
           <img
             [src]="c.image || 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=800'"
@@ -31,19 +29,16 @@
           </div>
         </div>
 
-        <!-- Aparência -->
         <section class="bg-slate-900/80 border border-slate-700 rounded-2xl p-6">
           <h2 class="font-bold text-cyan-300 mb-3 text-lg">Aparência</h2>
           <p class="text-slate-200 leading-relaxed">{{ c.appearance }}</p>
         </section>
 
-        <!-- História -->
         <section class="bg-slate-900/80 border border-slate-700 rounded-2xl p-6">
           <h2 class="font-bold text-violet-300 mb-3 text-lg">História</h2>
           <p class="text-slate-200 leading-relaxed">{{ c.story }}</p>
         </section>
 
-        <!-- Ações -->
         <div class="flex gap-3 justify-end">
           <button
             type="button"
@@ -55,7 +50,7 @@
           <button
             type="button"
             class="flex items-center gap-2 px-6 py-3 rounded-2xl bg-red-600 hover:bg-red-500 font-bold transition-all hover:scale-105 shadow-lg"
-            (click)="service.openRemove(c)">
+            (click)="openRemove()">
             <i class="pi pi-trash"></i> Remover
           </button>
         </div>
@@ -65,5 +60,7 @@
   </div>
 </div>
 
-<!-- Modal de remoção acessível também pelo detalhe -->
-<app-character-remove></app-character-remove>
+<app-character-remove 
+  [(visible)]="removeVisible" 
+  [(character)]="character">
+</app-character-remove>
