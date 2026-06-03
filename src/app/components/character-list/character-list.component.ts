@@ -19,12 +19,12 @@ export class CharacterListComponent {
   protected readonly service = inject(CharacterService);
   private readonly router = inject(Router);
 
-  /** Navega para a rota de detalhe passando o id do personagem. */
+  
   goToDetail(character: Character): void {
     this.router.navigate(['/characters', character.id]);
   }
 
-  /** Navega para a rota de edição passando o id do personagem. */
+  
   goToUpdate(character: Character): void {
     this.router.navigate(['/characters', character.id, 'edit']);
   }
