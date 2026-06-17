@@ -10,11 +10,24 @@
       </p>
     </div>
 
-    <a
-      routerLink="/characters/new"
-      class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold bg-white text-black shadow-xl hover:scale-105 transition-all cursor-pointer">
-      <i class="pi pi-plus"></i> Novo Personagem
-    </a>
+    <div class="flex items-center gap-3">
+      <span class="hidden md:inline text-slate-400 mr-1">
+        Olá, <span class="text-slate-200 font-semibold">{{ auth.currentUser() }}</span>
+      </span>
+
+      <a
+        routerLink="/characters/new"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-bold bg-white text-black shadow-xl hover:scale-105 transition-all cursor-pointer">
+        <i class="pi pi-plus"></i> Novo Personagem
+      </a>
+
+      <button
+        type="button"
+        (click)="logout()"
+        class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-bold bg-slate-800 text-slate-200 border border-slate-700 hover:bg-slate-700 hover:scale-105 transition-all cursor-pointer">
+        <i class="pi pi-sign-out"></i> Sair
+      </button>
+    </div>
   </div>
 
   <div class="bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl overflow-hidden">

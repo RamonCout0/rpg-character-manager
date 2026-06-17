@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 
 import { Character } from '../../models/character';
+import { AuthService } from '../../services/auth.service';
 import { CharacterService } from '../../services/character.service';
 import { CharacterRemoveComponent } from '../character-remove/character-remove.component';
 
@@ -17,11 +18,17 @@ import { CharacterRemoveComponent } from '../character-remove/character-remove.c
 })
 export class CharacterListComponent {
   protected readonly service = inject(CharacterService);
+  protected readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
   // Estados locais para controlar o modal de remoção nesta tela
   removeVisible = signal<boolean>(false);
   selectedCharacter = signal<Character | null>(null);
+
+  logout(): void {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
 
   goToDetail(character: Character): void {
     this.router.navigate(['/characters', character.id]);

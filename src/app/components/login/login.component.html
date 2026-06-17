@@ -1,0 +1,58 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 text-white">
+  <div class="w-full max-w-md bg-slate-900/70 backdrop-blur-xl border border-slate-700 rounded-3xl shadow-2xl p-8">
+
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-black tracking-tight bg-gradient-to-r from-violet-400 via-cyan-400 to-fuchsia-500 bg-clip-text text-transparent drop-shadow-lg">
+        🎲 RPG Character Manager
+      </h1>
+      <p class="text-slate-400 mt-2">Entre para gerenciar seus personagens.</p>
+    </div>
+
+    <div class="flex flex-col gap-5">
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-slate-300">Usuário</label>
+        <input
+          type="text"
+          [ngModel]="username()"
+          (ngModelChange)="username.set($event)"
+          (keyup.enter)="submit()"
+          placeholder="Digite seu usuário"
+          class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:border-violet-500 transition-colors">
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-semibold text-slate-300">Senha</label>
+        <input
+          type="password"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          (keyup.enter)="submit()"
+          placeholder="Digite sua senha"
+          class="w-full px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:border-violet-500 transition-colors">
+      </div>
+
+      @if (error()) {
+        <div class="bg-red-500/15 border border-red-500/30 text-red-300 px-4 py-3 rounded-xl text-sm">
+          {{ error() }}
+        </div>
+      }
+
+      <button
+        type="button"
+        (click)="submit()"
+        [disabled]="loading()"
+        class="w-full mt-2 px-6 py-3 rounded-2xl font-bold bg-white text-black shadow-xl hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 transition-all cursor-pointer flex items-center justify-center gap-2">
+        @if (loading()) {
+          <i class="pi pi-spin pi-spinner"></i> Entrando...
+        } @else {
+          <i class="pi pi-sign-in"></i> Entrar
+        }
+      </button>
+
+      <p class="text-center text-slate-500 text-xs mt-2">
+        Credenciais de teste:
+        <span class="text-slate-300 font-semibold">admin / admin123</span>
+      </p>
+    </div>
+  </div>
+</div>

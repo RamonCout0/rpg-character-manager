@@ -119,6 +119,44 @@ http://localhost:4200
 
 ---
 
+# 🔐 Autenticação JWT
+
+O projeto agora possui login com JWT, guarda de rotas e interceptor.
+
+## Backend (REST/JSON + JWT)
+
+O backend fica na pasta `backend/` (Node + Express). Frontend e backend podem rodar na mesma máquina.
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+O backend sobe em `http://localhost:3000`.
+
+## Credenciais de teste
+
+| Usuário | Senha    |
+|---------|----------|
+| admin   | admin123 |
+
+## Como funciona
+
+- **Tela de login** (`/login`): envia usuário e senha para `POST /api/auth/login`.
+- **AuthService**: guarda o token JWT (localStorage + signal) e expõe `isAuthenticated`.
+- **Guard `authGuard` (CanActivate)**: protege as rotas `/characters*`; sem token, redireciona para `/login`.
+- **Interceptor `authInterceptor`**: anexa `Authorization: Bearer <token>` em toda requisição HTTP (GET/POST/PUT/DELETE).
+- **CRUD de personagens**: o `CharacterService` consome o backend via HttpClient nas rotas protegidas `/api/characters`.
+
+## Ordem para rodar
+
+1. `cd backend && npm install && npm start` (porta 3000)
+2. Em outro terminal, na raiz: `ng serve` (porta 4200)
+3. Acessar `http://localhost:4200` → você cai na tela de login.
+
+---
+
 # 📁 Estrutura do Projeto
 
 ```txt
